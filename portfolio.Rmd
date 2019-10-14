@@ -1,0 +1,234 @@
+---
+title: "Portfolio Drugs"
+author: Veethacheng Thao
+output:
+  html_document:
+    df_print: paged
+---
+
+This is a portfolio on 13 drugs used by 17 age groups from the source https://github.com/deepak525/Drug-Consumption.
+I chose this specific set of dataset because there are many types of drugs on this dataset.
+
+We will need and use tidyverse to handle data importing and wrangling.
+
+```{r}
+install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+library("tidyverse")
+
+drugs_survey <- read_csv("https://raw.githubusercontent.com/deepak525/Drug-Consumption/master/drug_consumption.csv")
+```
+
+When looking into the dataset we see that some of the column names was unclear so we can rename them to help us better understand the table.
+
+```{r}
+colnames(drugs_survey)[colnames(drugs_survey)=="SS"] <- "Sensation"
+```
+
+Splitting up the dataset to different tables so we can have a better understanding of our datas with the help of tidr.
+
+```{r}
+library("dplyr")
+library("tidyr")
+
+drugs <- tibble(Age=drugs_survey$Age, Gender=drugs_survey$Gender, Education=drugs_survey$Education, Country=drugs_survey$Country, Ethnicity=drugs_survey$Ethnicity, Alcohol=drugs_survey$Alcohol, Amphet=drugs_survey$Amphet, Amyl=drugs_survey$Amyl, Benzos=drugs_survey$Benzos, Caff=drugs_survey$Caff, Cannabis=drugs_survey$Cannabis, Choc=drugs_survey$Choc, Coke=drugs_survey$Coke, Crack=drugs_survey$Crack, Ecstasy=drugs_survey$Ecstasy, Heroin=drugs_survey$Heroin, Ketamine=drugs_survey$Ketamine, Legalh=drugs_survey$Legalh, LSD=drugs_survey$LSD, Meth=drugs_survey$Meth, Mushrooms=drugs_survey$Mushrooms, Nicotine=drugs_survey$Nicotine, Semer=drugs_survey$Semer, VSA=drugs_survey$VSA)
+
+scores <- tibble(Age=drugs_survey$Age, Gender=drugs_survey$Gender, Education=drugs_survey$Education, Country=drugs_survey$Country, Ethnicity=drugs_survey$Ethnicity, Nscore=drugs_survey$Nscore, Escore=drugs_survey$Escore, Oscore=drugs_survey$Oscore, Ascore=drugs_survey$Ascore, Cscore=drugs_survey$Cscore, Impulsive=drugs_survey$Impulsive, Sensation=drugs_survey$Sensation)
+```
+
+Since there are some columns that can only be specific levels we use as.factor to help us define them.
+
+```{r}
+drugs_survey$Gender <- as.factor(drugs_survey$Gender)
+drugs_survey$Education <- as.factor(drugs_survey$Education)
+drugs_survey$Country <- as.factor(drugs_survey$Country)
+drugs_survey$Ethnicity <- as.factor(drugs_survey$Ethnicity)
+```
+
+Now we will use ggplot2 to visualize our data to better help us understand what is going on.
+We will specifically focus on cannabis.
+
+```{r}
+library("ggplot2")
+ggplot(drugs, aes(Age, Cannabis)) + geom_col()
+ggplot(drugs, aes(Gender, Cannabis)) +  geom_col()
+ggplot(drugs, aes(Education, Cannabis)) +  geom_col()
+```
+
+To better understand what the values for these data are i have copy and paste the information i found from the person that collected these data below.
+
+Age: Age is the age of participant and has one of the values:
+<center>Value	Meaning	Cases	Fraction</center>
+<center>-0.95197	18 - 24	643	34.11%</center>
+<center>-0.07854	25 - 34	481	25.52%</center>
+<center>0.49788	35 - 44	356	18.89%</center>
+<center>1.09449	45 - 54	294	15.60%</center>
+<center>1.82213	55 - 64	93	4.93%</center>
+<center>2.59171	65+	18	0.95%</center>
+
+<br>
+3.Gender: Gender is gender of participant:
+<center>Value	Meaning	Cases	Fraction</center>
+<center>0.48246	Female	942	49.97%</center>
+<center>-0.48246	Male	943	50.03%</center>
+
+<br>
+Education: Education is level of education of participant and has one of the values:
+<center>Value	Meaning	Cases	Fraction</center>
+<center>-2.43591	Left School Before 16 years	28	1.49%</center>
+<center>-1.73790	Left School at 16 years	99	5.25%</center>
+<center>-1.43719	Left School at 17 years	30	1.59%</center>
+<center>-1.22751	Left School at 18 years	100	5.31%</center>
+<center>-0.61113	Some College,No Certificate Or Degree	506	26.84%</center>
+<center>-0.05921	Professional Certificate/ Diploma	270	14.32%</center>
+<center>0.45468	University Degree	480	25.46%</center>
+<center>1.16365	Masters Degree	283	15.01%</center>
+<center>1.98437	Doctorate Degree	89	4.72%</center>
+
+<br>
+Country: Country is country of current residence of participant and has one of the values:
+<center>Value	Meaning	Cases	Fraction</center>
+<center>-0.09765	Australia	54	2.86%</center>
+<center>0.24923	Canada	87	4.62%</center>
+<center>-0.46841	New Zealand	5	0.27%</center>
+<center>-0.28519	Other	118	6.26%</center>
+<center>0.21128	Republic of Ireland	20	1.06%</center>
+<center>0.96082	UK	1044	55.38%</center>
+<center>-0.57009	USA	557	29.55%</center>
+
+<br>
+6.Ethnicity: Ethnicity is ethnicity of participant and has one of the values:
+<center>Value	Meaning	Cases	Fraction</center>
+<center>-0.50212	Asian	26	1.38%</center>
+<center>-1.10702	Black	33	1.75%</center>
+<center>1.90725	Mixed-Black/Asian	3	0.16%</center>
+<center>0.12600	Mixed-White/Asian	20	1.06%</center>
+<center>-0.22166	Mixed-White/Black	20	1.06%</center>
+<center>0.11440	Other	63	3.34%</center>
+<center>-0.31685	White	1720	91.25%</center>
+
+<br>
+Nscore: Nscore is NEO-FFI-R Neuroticism. Neuroticism is one of the Big Five higher-order personality traits in the study of psychology. Individuals who score high on neuroticism are more likely than average to be moody and to experience such feelings as anxiety, worry, fear, anger, frustration, envy, jealousy, guilt, depressed mood, and loneliness. Possible values are presented in table below:
+<center>Nscore	Value	Nscore	Value	Nscore	Value	Nscore	Value</center>
+<center>12	-3.46436	24	-1.32828	36	0.04257	48	1.23461</center>
+<center>13	-3.15735	25	-1.19430	37	0.13606	49	1.37297</center>
+<center>14	-2.75696	26	-1.05308	38	0.22393	50	1.49158</center>
+<center>15	-2.52197	27	-0.92104	39	0.31287	51	1.60383</center>
+<center>16	-2.42317	28	-0.79151	40	0.41667	52	1.72012</center>
+<center>17	-2.34360	29	-0.67825	41	0.52135	53	1.83990</center>
+<center>18	-2.21844	30	-0.58016	42	0.62967	54	1.98437</center>
+<center>19	-2.05048	31	-0.46725	43	0.73545	55	2.12700</center>
+<center>20	-1.86962	32	-0.34799	44	0.82562	56	2.28554</center>
+<center>21	-1.69163	33	-0.24649	45	0.91093	57	2.46262</center>
+<center>22	-1.55078	34	-0.14882	46	1.02119	58	2.61139</center>
+<center>23	-1.43907	35	-0.05188	47	1.13281	59	2.82196</center>
+<center> - - - - - - - - - - - - - -	-	-	-	-	-	60	3.27393</center>
+
+<br>
+EScore: Escore (Real) is NEO-FFI-R Extraversion. Extraversion is one of the five personality traits of the Big Five personality theory. It indicates how outgoing and social a person is. A person who scores high in extraversion on a personality test is the life of the party. They enjoy being with people, participating in social gatherings, and are full of energy. Possible values are presented in table below:
+<center>Escore	Value	Escore	Value	Escore	Value	Escore	Value</center>
+<center>16	-3.27393	27	-1.76250	38	-0.30033	49	1.45421</center>
+<center>17	-3.00537	28	-1.63340	39	-0.15487	50	1.58487</center>
+<center>18	-3.00537	29	-1.50796	40	0.00332	51	1.74091</center>
+<center>19	-2.72827	30	-1.37639	41	0.16767	52	1.93886</center>
+<center>20	-2.53830	31	-1.23177	42	0.32197	53	2.12700</center>
+<center>21	-2.44904	32	-1.09207	43	0.47617	54	2.32338</center>
+<center>22	-2.32338	33	-0.94779	44	0.63779	55	2.57309</center>
+<center>23	-2.21069	34	-0.80615	45	0.80523	56	2.85950</center>
+<center>24	-2.11437	35	-0.69509	46	0.96248	57	2.85950</center>
+<center>25	-2.03972	36	-0.57545	47	1.11406	58	3.00537</center>
+<center>26	-1.92173	37	-0.43999	48	1.28610	59	3.27393</center>
+
+<br>
+Oscore: Oscore (Real) is NEO-FFI-R Openness to experience. Openness is one of the five personality traits of the Big Five personality theory. It indicates how open-minded a person is. A person with a high level of openness to experience in a personality test enjoys trying new things. They are imaginative, curious, and open-minded. Individuals who are low in openness to experience would rather not try new things. They are close-minded, literal and enjoy having a routine. Possible values are presented in table below:
+<center>Oscore	Value	Oscore	Value	Oscore	Value</center>
+<center>24	-3.27393	38	-1.11902	50	0.58331</center>
+<center>26	-2.85950	39	-0.97631	51	0.72330</center>
+<center>28	-2.63199	40	-0.84732	52	0.88309</center>
+<center>29	-2.39883	41	-0.71727	53	1.06238</center>
+<center>30	-2.21069	42	-0.58331	54	1.24033</center>
+<center>31	-2.09015	43	-0.45174	55	1.43533</center>
+<center>32	-1.97495	44	-0.31776	56	1.65653</center>
+<center>33	-1.82919	45	-0.17779	57	1.88511</center>
+<center>34	-1.68062	46	-0.01928	58	1.15324</center>
+<center>35	-1.55521	47	0.14143	59	2.44904</center>
+<center>36	-1.42424	48	0.29338	60	2.90161</center>
+<center>37	-1.27553	49	0.44585	NaN	NaN</center>
+
+<br>
+Ascore: Ascore(Real) is NEO-FFI-R Agreeableness. Agreeableness is one of the five personality traits of the Big Five personality theory. A person with a high level of agreeableness in a personality test is usually warm, friendly, and tactful. They generally have an optimistic view of human nature and get along well with others. Possible values are presented in table below:
+<center>Ascore	Value	Ascore	Value	Ascore	Value</center>
+<center>12	-3.46436	34	-1.34289	48	0.76096</center>
+<center>16	-3.15735	35	-1.21213	49	0.94156</center>
+<center>18	-3.00537	36	-1.07533	50	1.11406</center>
+<center>23	-2.90161	37	-0.91699	51	1.2861</center>
+<center>24	-2.78793	38	-0.76096	52	1.45039</center>
+<center>25	-2.70172	39	-0.60633	53	1.61108</center>
+<center>26	-2.53830	40	-0.45321	54	1.81866</center>
+<center>27	-2.35413	41	-0.30172	55	2.03972</center>
+<center>28	-2.21844	42	-0.15487	56	2.23427</center>
+<center>29	-2.07848	43	-0.01729	57	2.46262</center>
+<center>30	-1.92595	44	0.13136	58	2.75696</center>
+<center>31	-1.77200	45	0.28783	59	3.15735</center>
+<center>32	-1.62090	46	0.43852	60	3.46436</center>
+<center>33	-1.47955	47	0.59042	NaN	NaN</center>
+
+<br>
+Cscore: Cscore (Real) is NEO-FFI-R Conscientiousness. Conscientiousness is one of the five personality traits of the Big Five personality theory. A person scoring high in conscientiousness usually has a high level of self-discipline. These individuals prefer to follow a plan, rather than act spontaneously. Their methodic planning and perseverance usually makes them highly successful in their chosen occupation. Possible values are presented in table below:
+<center>Cscore	Value	Cscore	Value	Cscore	Value
+<center>17	-3.46436	32	-1.25773	46	0.58489</center>
+<center>19	-3.15735	33	-1.13788	47	0.7583</center>
+<center>20	-2.90161	34	-1.01450	48	0.93949</center>
+<center>21	-2.72827	35	-0.89891	49	1.13407</center>
+<center>22	-2.57309	36	-0.78155	50	1.30612</center>
+<center>23	-2.42317	37	-0.65253	51	1.46191</center>
+<center>24	-2.30408	38	-0.52745	52	1.63088</center>
+<center>25	-2.18109	39	-0.40581	53	1.81175</center>
+<center>26	-2.04506	40	-0.27607	54	2.04506</center>
+<center>27	-1.92173	41	-0.14277	55	2.33337</center>
+<center>28	-1.78169	42	-0.00665	56	2.63199</center>
+<center>29	-1.64101	43	0.12331	57	3.00537</center>
+<center>30	-1.51840	44	0.25953	59	3.46436</center>
+<center>31	-1.38502	45	0.41594	NaN	NaN</center>
+
+<br>
+Impulsive: Impulsive (Real) is impulsiveness measured by BIS-11. In psychology, impulsivity (or impulsiveness) is a tendency to act on a whim, displaying behavior characterized by little or no forethought, reflection, or consideration of the consequences. If you describe someone as impulsive, you mean that they do things suddenly without thinking about them carefully first. Possible values are presented in table below:
+<center>Impulsiveness	Cases	Fraction
+<center>-2.55524	20	1.06%</center>
+<center>-1.37983	276	14.64%</center>
+<center>-0.71126	307	16.29%</center>
+<center>-0.21712	355	18.83%</center>
+<center>0.19268	257	13.63%</center>
+<center>0.52975	216	11.46%</center>
+<center>0.88113	195	10.34%</center>
+<center>1.29221	148	7.85%</center>
+<center>1.86203	104	5.52%</center>
+<center>2.90161	7	0.37%</center>
+
+<br>
+Sensation: SS(Real) is sensation seeing measured by ImpSS. Sensation is input about the physical world obtained by our sensory receptors, and perception is the process by which the brain selects, organizes, and interprets these sensations. In other words, senses are the physiological basis of perception. Possible values are presented in table below:
+<center>SS	Cases	Fraction</center>
+<center>-2.07848	71	3.77%</center>
+<center>-1.54858	87	4.62%</center>
+<center>-1.18084	132	7.00%</center>
+<center>-0.84637	169	8.97%</center>
+<center>-0.52593	211	11.19%</center>
+<center>-0.21575	223	11.83%</center>
+<center>0.07987	219	11.62%</center>
+<center>0.40148	249	13.21%</center>
+<center>0.76540	211	11.19%</center>
+<center>1.22470	210	11.14%</center>
+<center>1.92173	103	5.46%</center>
+
+<br>
+The remaining columns are divided inti 7 classes:
+<center>Value	Description</center>
+<center>CL0	Never Used</center>
+<center>CL1	Used over a Decade Ago</center>
+<center>CL2	Used in Last Decade</center>
+<center>CL3	Used in Last Year</center>
+<center>CL4	Used in Last Month</center>
+<center>CL5	Used in Last Week</center>
+<center>CL6	Used in Last Day</center>
+<br>
+
+In my later phases of my portfolio i want to see how deadly these drugs are. Also I want to know which of these drugs is beneficial.
