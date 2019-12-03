@@ -1,0 +1,48 @@
+---
+title: "Portfolio 2"
+author: Veethacheng Thao
+output: html_notebook
+---
+
+To build upon the first part of the portfolio we will load it.
+```{r}
+library("tidyverse")
+library("knitr")
+purl("portfolio.Rmd", output = "part1.r")
+source("part1.r")
+```
+
+The new source of data will now be json which can be found at https://github.com/dariusk/corpora/blob/master/data/medicine/drugs.json.
+To load the data we use rjson package.
+```{r}
+install.packages("rjson")
+library("rjson")
+json_file <- "https://raw.githubusercontent.com/dariusk/corpora/master/data/medicine/drugs.json"
+json_data <- fromJSON(file=json_file)
+```
+
+Putting the list of pharmaceutical drugs to a dataframe.
+```{r}
+pharmaceutical <- as.data.frame(json_data["drugs"])
+```
+
+Now since we have our two datasets I want to know if any of the drugs that were being abuse from my previous dataset appear as any of these pharmaceutical drugs.
+But first we need to fix up the dataframes so they can be easily compared.
+```{r}
+library("dplyr")
+colnames(drugs)
+only_drugs <- drugs %>% select(-Age, -Gender, -Education, -Country, -Ethnicity)
+abused_drugs <- as.data.frame(colnames(only_drugs))
+colnames(abused_drugs)[colnames(abused_drugs)=="colnames(only_drugs)"] <- "abused_drug"
+```
+Now to compare we use the %in%.
+```{r}
+abused_drugs %in% pharmaceutical
+```
+The results is false just as i hope it to be since all the abused drugs were mostly hard drugs.
+
+Next it would be interesting to see if age has any correlation into using some of these hard drugs.
+```{r}
+ll <- lm(data = drugs, Age ~ Meth)
+summary(ll)
+```
