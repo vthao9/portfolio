@@ -8,7 +8,7 @@ output:
 ---
 
 To build upon the first part of the portfolio we will load it.
-```{r}
+```{r echo=FALSE, message=FALSE, error=FALSE, warning=FALSE, results='hide'}
 install.packages("tidyverse", repos = "http://cran.us.r-project.org")
 library("tidyverse")
 library("knitr")
@@ -19,7 +19,6 @@ source("part1.r")
 The new source of data will now be json which can be found at https://github.com/dariusk/corpora/blob/master/data/medicine/drugs.json.
 To load the data we use rjson package.
 ```{r}
-install.packages("rjson")
 library("rjson")
 json_file <- "https://raw.githubusercontent.com/dariusk/corpora/master/data/medicine/drugs.json"
 json_data <- fromJSON(file=json_file)
