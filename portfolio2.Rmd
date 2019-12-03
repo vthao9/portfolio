@@ -1,11 +1,15 @@
 ---
 title: "Portfolio 2"
-author: Veethacheng Thao
-output: html_notebook
+author: "Veethacheng Thao"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
 ---
 
 To build upon the first part of the portfolio we will load it.
 ```{r}
+install.packages("tidyverse", repos = "http://cran.us.r-project.org")
 library("tidyverse")
 library("knitr")
 purl("portfolio.Rmd", output = "part1.r")
@@ -43,6 +47,6 @@ The results is false just as i hope it to be since all the abused drugs were mos
 
 Next it would be interesting to see if age has any correlation into using some of these hard drugs.
 ```{r}
-ll <- lm(data = drugs, Age ~ Meth)
+ll <- lm(data = drugs, Age ~ Coke + Meth + Crack + Mushrooms)
 summary(ll)
 ```
