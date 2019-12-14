@@ -1,0 +1,33 @@
+---
+title: "Portfolio 3"
+author: "Veethacheng Thao"
+output:
+  html_document:
+    df_print: paged
+---
+
+Operational & social impact
+
+operational.........
+
+whats next?
+what do we do w/ model
+- data collection
+- data automation
+- inintended consequences
+
+social impact.........
+
+who it serves/impact
+social responses
+ethical dilemmas
+
+
+my data
+operationalization
+educate youth on hard drugs
+
+social impact
+
+## OPERATIONALIZE
+To operationalize my finding would involve in some sort of drug education.
