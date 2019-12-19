@@ -6,28 +6,19 @@ output:
     df_print: paged
 ---
 
-Operational & social impact
+In this deliverable I would be doing some more visualizing of my findings from deliverable 2.
+To do this we would need to load the previous information.
+```{r}
+install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+library("tidyverse")
+library("knitr")
+purl("portfolio2.Rmd", output = "part2.r")
+source("part1.r")
+```
+# Vizualizing
 
-operational.........
-
-whats next?
-what do we do w/ model
-- data collection
-- data automation
-- inintended consequences
-
-social impact.........
-
-who it serves/impact
-social responses
-ethical dilemmas
-
-
-my data
-operationalization
-educate youth on hard drugs
-
-social impact
-
+```{r}
+ggplot(drugs, aes(x = Coke , y = Age)) + geom_point()
+```
 ## OPERATIONALIZE
 To operationalize my finding would involve in some sort of drug education.
