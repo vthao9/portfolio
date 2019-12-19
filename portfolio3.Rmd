@@ -6,7 +6,7 @@ output:
     df_print: paged
 ---
 
-In this deliverable I would be doing some more visualizing of my findings from deliverable 2.
+In this deliverable I would be doing some more visualizing and improvement of my findings from deliverable 2.
 To do this we would need to load the previous information.
 ```{r}
 install.packages("tidyverse", repos = "http://cran.us.r-project.org")
@@ -15,10 +15,104 @@ library("knitr")
 purl("portfolio2.Rmd", output = "part2.r")
 source("part1.r")
 ```
-# Vizualizing
+
+## Fixing up Deliverable 1
+```{r}
+ggplot(drugs, aes(Age, Cannabis)) + geom_jitter()
+ggplot(drugs, aes(Gender, Cannabis)) +  geom_jitter()
+ggplot(drugs, aes(Education, Cannabis)) +  geom_jitter()
+```
+
+And to fix the format issue of the values:
+
+#### Age: 
+
+-0.95197 is  ages 18 - 24
+
+-0.07854 is ages 25 - 34
+
+0.49788 is ages 35 - 44
+
+1.09449 is ages 45 - 54
+
+1.82213 is ages 55 - 64
+
+2.59171 is ages 65+
+
+
+#### Gender:
+
+0.48246 is Female
+
+-0.48246 is Male
+
+
+#### Education:
+
+-2.43591 Left School Before 16 years
+
+-1.73790 Left School at 16 years
+
+-1.43719 Left School at 17 years
+
+-1.22751 Left School at 18 years
+
+-0.61113 Some College,No Certificate Or Degree
+
+-0.05921 Professional Certificate/ Diploma
+
+0.45468 University Degree
+
+1.16365 Masters Degree
+
+1.98437 Doctorate Degree
+
+
+#### Time of drug used:
+
+CL0 Never Used
+
+CL1 Used over a Decade Ago
+
+CL2 Used in Last Decade
+
+CL3 Used in Last Year
+
+CL4 Used in Last Month
+
+CL5 Used in Last Week
+
+CL6 Used in Last Day
+
+
+## Vizualizing Deliverable 2
 
 ```{r}
-ggplot(drugs, aes(x = Coke , y = Age)) + geom_point()
+ggplot(drugs, aes(x = Cannabis , y = Age)) + geom_jitter()
+ggplot(drugs, aes(x = Legalh , y = Age)) + geom_jitter()
 ```
-## OPERATIONALIZE
-To operationalize my finding would involve in some sort of drug education.
+
+These visualization of the findings seems to be correct because if you look at -1 and CL1 for all three, it is mostly blank.
+This is because the age group of -1 is 18 to 24 and CL1 is using the drugs over a decade ago. Its true because most of these people a decade ago would've been too young to get a hold of any of these drugs. 
+
+## Improvement on Deliverable 2
+This step is going to involve improving my models.
+
+```{r}
+library("caret")
+sample <- createDataPartition(drugs$Age, p = .70, list = FALSE)
+train <- drugs[sample,]
+test <- drugs[-sample,]
+train_model <- lm(Age ~ Coke + Meth + Crack + Mushrooms + Alcohol + Amphet + Amyl + Benzos + Caff + Cannabis + Choc + Ecstasy + Heroin + Ketamine + Legalh + LSD + Nicotine + Semer + VSA, data = train)
+summary(train_model)
+```
+
+As you can see from the above model there are a bunch of variables that are not good. We will clean it up to only show the ones that are worth keeping.
+
+```{r}
+train_model <- lm(Age ~ Cannabis + Legalh, data = train)
+summary(train_model)
+```
+
+## OPERATIONALIZATION
+To operationalize my finding would involve in some sort of drug education in all area of group age. Although, there are signs of the age group of 18 - 24 being the most active in drug activity. Cannabis being the top drug this group currently or have use recently during drug activity. Taking this to account, deeper research into this particular drug and finding how it affects a person to better educate people on this drug. 
