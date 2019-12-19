@@ -22,6 +22,10 @@ ggplot(drugs, aes(Age, Cannabis)) + geom_jitter()
 ggplot(drugs, aes(Gender, Cannabis)) +  geom_jitter()
 ggplot(drugs, aes(Education, Cannabis)) +  geom_jitter()
 ```
+After peer review, the reviewer stated that adding summary to my visuals would help, so here are some findings of these graphs. These graphs gives users the information of the drug cannabis. The first visual shows that the all age group uses this drug but its mainly group ages from 18 - 54. The second visual shows that guys are the most recent users of this drug. And lastly this visual shows that the education group that uses this drug the most is people that have some college background to people that have master's degree. 
+This gives me the insight that maybe these people are away from home, that it is probably why they have the freedom to do drugs and not have anyone telling them to not do drugs.
+
+
 
 And to fix the format issue of the values:
 
@@ -116,3 +120,5 @@ summary(train_model)
 
 ## OPERATIONALIZATION
 To operationalize my finding would involve in some sort of drug education in all area of group age. Although, there are signs of the age group of 18 - 24 being the most active in drug activity. Cannabis being the top drug this group currently or have use recently during drug activity. Taking this to account, deeper research into this particular drug and finding how it affects a person to better educate people on this drug. 
+
+After the peer review, adding more research into other drugs would be beneficial to help operationalize. Having more knowlegde of all these drugs would greatly help with educating people.
